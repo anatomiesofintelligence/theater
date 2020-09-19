@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Anatomies of Intelligence ~ WebSocket Test</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Testing WebSocket server...</h1>
+
+<ul id="messages"></ul>
+<form action="">
+	<input id="name">Enter Your Name</input>
+	<br/><br/>
+	<input id="msg">Type a Message</input>
+
+	<button id="gesture">Send your message</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket = io(); // your initialization code here.
+ 
+	let name = document.querySelector('#name');
+	let msg = document.querySelector('#msg');
+	let messages = document.querySelector('#messages');
+	let gesture = document.querySelector('#gesture');
+
+	gesture.onclick = function(e) {
+		socket.emit('gesture', msg.value + " from " + name.value);
+		return false; // do not submit the form
+	};
+
+	socket.on('gesture', function(msg) {
+		let li = document.createElement("li");
+		li.appendChild(document.createTextNode(msg));
+		messages.appendChild(li);
+	});
+</script>
+
+</body>
+</html>
